@@ -29,13 +29,28 @@ public class AgDataController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
-    // TODO: GET /api/agdata/crop-count?cropName=corn
+    @GetMapping("/crop-count")
+    public ResponseEntity<Long> getCropCount(@RequestParam String cropName) {
+        long cropCount = agDataService.getCropCount(cropName);
+        return new ResponseEntity<>(cropCount, HttpStatus.OK);
+    }
 
 
-    // TODO: GET /api/agdata/average-yield?cropName=wheat
+    @GetMapping("/average-yield")
+    public ResponseEntity<Double> getAverageYield(@RequestParam String cropName) {
+        double averageYield = agDataService.calculateAverageYield(cropName);
+        return new ResponseEntity<>(averageYield, HttpStatus.OK);
+    }
 
 
-    // TODO: GET /api/agdata/by-region?region=Midwest
+    @GetMapping("/by-region")
+    public ResponseEntity<List<AgData>> getByRegion(@RequestParam String region) {
+        List<AgData> dataByRegion = agDataService.getDataByRegion(region);
+        if (dataByRegion.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(dataByRegion, HttpStatus.OK);
+    }
 
 
 }
